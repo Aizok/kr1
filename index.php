@@ -40,49 +40,62 @@
                 ?>
                 <div class="col">
                     <div class="card h-100 shadow-sm card-recipe <?= $cardClass ?>">
-                        <div class="card-body d-flex flex-column">
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <h5 class="card-title mb-0"><?= htmlspecialchars($row['title']) ?></h5>
-                                <span class="badge <?= $diffClass ?>"><?= htmlspecialchars($row['difficulty']) ?></span>
-                            </div>
+                    <div class="card-body d-flex flex-column">
+    <div class="d-flex justify-content-between align-items-start mb-2">
+        <h5 class="card-title mb-0"><?= htmlspecialchars($row['title']) ?></h5>
+        <span class="badge <?= $diffClass ?>"><?= htmlspecialchars($row['difficulty']) ?></span>
+    </div>
 
-                            <?php if (!empty($row['description'])): ?>
-                                <p class="card-text small text-muted mb-2"><?= nl2br(htmlspecialchars($row['description'])) ?></p>
-                            <?php endif; ?>
+    <?php if (!empty($row['description'])):
+        $desc = htmlspecialchars($row['description']);
+        $maxLen = 150;
+        $shortDesc = mb_strlen($desc) > $maxLen ? mb_substr($desc, 0, $maxLen) . '...' : $desc;
+    ?>
+        <p class="card-text small text-muted mb-3 flex-grow-1"><?= nl2br($shortDesc) ?></p>
+    <?php else: ?>
+        <div class="flex-grow-1"></div> <!-- пустой div, чтобы занять место, если описания нет -->
+    <?php endif; ?>
 
-                            <p class="card-text small">
-                                <strong>⏱️ Время:</strong> <?= (int)$row['cooking_time'] ?> мин.<br>
-                                <strong>📅 Добавлено:</strong> <?= htmlspecialchars($row['created_at']) ?>
-                            </p>
+    <p class="card-text small mb-2">
+        <strong>⏱️ Время:</strong> <?= (int)$row['cooking_time'] ?> мин.<br>
+        <strong>📅 Добавлено:</strong> <?= htmlspecialchars($row['created_at']) ?>
+    </p>
 
-                            <p class="card-text">
-                                <strong>📋 Ингредиенты:</strong>
-                                <ul class="mb-0">
-                                    <?php
-                                    $ingredients = explode("\n", $row['ingredients']);
-                                    foreach ($ingredients as $ing) {
-                                        $ing = trim($ing);
-                                        if ($ing) echo "<li>" . htmlspecialchars($ing) . "</li>";
-                                    }
-                                    ?>
-                                </ul>
-                            </p>
+    <p class="card-text small mb-3">
+        <strong>📋 Ингредиенты:</strong>
+        <ul class="mb-0 small">
+            <?php
+            $ingredients = explode("\n", $row['ingredients']);
+            $count = 0;
+            foreach ($ingredients as $ing) {
+                $ing = trim($ing);
+                if ($ing && $count < 3) { // показываем только первые 3 ингредиента
+                    echo "<li>" . htmlspecialchars($ing) . "</li>";
+                    $count++;
+                }
+            }
+            if (count($ingredients) > 3) {
+                echo "<li class='text-muted'>... и ещё " . (count($ingredients) - 3) . "</li>";
+            }
+            ?>
+        </ul>
+    </p>
 
-                            <div class="mt-auto pt-3">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <span class="badge <?= $row['status'] === 'приготовлен' ? 'bg-success' : 'bg-warning text-dark' ?>">
-                                        <?= $row['status'] === 'приготовлен' ? '✅ Приготовлен' : '⏳ Не приготовлен' ?>
-                                    </span>
-                                    <div>
-                                        <a href="edit.php?id=<?= $row['id'] ?>" class="btn btn-sm btn-outline-primary">✏️</a>
-                                        <a href="update_status.php?id=<?= $row['id'] ?>" class="btn btn-sm btn-<?= $row['status'] === 'приготовлен' ? 'warning' : 'success' ?>">
-                                            <?= $row['status'] === 'приготовлен' ? '🔁 Сбросить' : '✅ Готовил' ?>
-                                        </a>
-                                        <a href="delete.php?id=<?= $row['id'] ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Точно удалить рецепт?')">🗑️</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+    <div class="mt-auto pt-2">
+        <div class="d-flex justify-content-between align-items-center">
+            <span class="badge <?= $row['status'] === 'приготовлен' ? 'bg-success' : 'bg-warning text-dark' ?>">
+                <?= $row['status'] === 'приготовлен' ? '✅ Приготовлен' : '⏳ Не приготовлен' ?>
+            </span>
+            <div>
+                <a href="edit.php?id=<?= $row['id'] ?>" class="btn btn-sm btn-outline-primary">✏️</a>
+                <a href="update_status.php?id=<?= $row['id'] ?>" class="btn btn-sm btn-<?= $row['status'] === 'приготовлен' ? 'warning' : 'success' ?>">
+                    <?= $row['status'] === 'приготовлен' ? '🔁 Сбросить' : '✅ Готовил' ?>
+                </a>
+                <a href="delete.php?id=<?= $row['id'] ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Точно удалить рецепт?')">🗑️</a>
+            </div>
+        </div>
+    </div>
+</div>    
                     </div>
                 </div>
                 <?php

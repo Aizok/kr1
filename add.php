@@ -11,18 +11,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $status = $_POST['status'] ?? 'не приготовлен';
     $difficulty = $_POST['difficulty'] ?? 'легко';
 
-    // Валидация ENUM-значений — на всякий случай
     $allowed_status = ['не приготовлен', 'приготовлен'];
     $allowed_difficulty = ['легко', 'средне', 'сложно'];
 
     if (empty($title)) {
-        $error = "❌ Название обязательно!";
+        $error = "Название обязательно!";
     } elseif (empty($ingredients)) {
-        $error = "❌ Ингредиенты обязательны!";
+        $error = "Ингредиенты обязательны!";
     } elseif (!in_array($status, $allowed_status)) {
-        $error = "❌ Недопустимое значение статуса.";
+        $error = "Недопустимое значение статуса.";
     } elseif (!in_array($difficulty, $allowed_difficulty)) {
-        $error = "❌ Недопустимое значение сложности.";
+        $error = "Недопустимое значение сложности.";
     } else {
         try {
             $stmt = $pdo->prepare("
@@ -33,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             header("Location: index.php");
             exit;
         } catch (Exception $e) {
-            $error = "❌ Ошибка сохранения: " . htmlspecialchars($e->getMessage());
+            $error = "Ошибка сохранения: " . htmlspecialchars($e->getMessage());
         }
     }
 }

@@ -2,7 +2,7 @@
 require_once 'config.php';
 
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-    die("❌ Некорректный ID рецепта");
+    die("Некорректный ID рецепта");
 }
 
 $id = (int)$_GET['id'];
@@ -13,10 +13,10 @@ try {
     $recipe = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$recipe) {
-        die("❌ Рецепт не найден");
+        die("Рецепт не найден");
     }
 } catch (Exception $e) {
-    die("❌ Ошибка загрузки рецепта: " . htmlspecialchars($e->getMessage()));
+    die("Ошибка загрузки рецепта: " . htmlspecialchars($e->getMessage()));
 }
 
 $error = '';
@@ -33,13 +33,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $allowed_difficulty = ['легко', 'средне', 'сложно'];
 
     if (empty($title)) {
-        $error = "❌ Название обязательно!";
+        $error = "Название обязательно!";
     } elseif (empty($ingredients)) {
-        $error = "❌ Ингредиенты обязательны!";
+        $error = "Ингредиенты обязательны!";
     } elseif (!in_array($status, $allowed_status)) {
-        $error = "❌ Недопустимое значение статуса.";
+        $error = "Недопустимое значение статуса.";
     } elseif (!in_array($difficulty, $allowed_difficulty)) {
-        $error = "❌ Недопустимое значение сложности.";
+        $error = "Недопустимое значение сложности.";
     } else {
         try {
             $stmt = $pdo->prepare("
@@ -82,8 +82,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Описание</label>
-            <textarea name="description" class="form-control" rows="3"><?= htmlspecialchars($recipe['description']) ?></textarea>
+            <label class="form-label">Ингредиенты <span class="text-danger">*</span></label>
+            <textarea name="ingredients" class="form-control" rows="6" required><?= htmlspecialchars($recipe['ingredients']) ?></textarea>
         </div>
 
         <div class="row mb-3">
@@ -109,8 +109,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Ингредиенты <span class="text-danger">*</span></label>
-            <textarea name="ingredients" class="form-control" rows="6" required><?= htmlspecialchars($recipe['ingredients']) ?></textarea>
+            <label class="form-label">Описание</label>
+            <textarea name="description" class="form-control" rows="3"><?= htmlspecialchars($recipe['description']) ?></textarea>
         </div>
 
         <button type="submit" class="btn btn-primary">💾 Сохранить изменения</button>

@@ -2,7 +2,7 @@
 require_once 'config.php';
 
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-    die("❌ Некорректный ID");
+    die("Некорректный ID");
 }
 
 $id = (int)$_GET['id'];

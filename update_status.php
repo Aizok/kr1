@@ -25,7 +25,6 @@ try {
     die("Ошибка обновления статуса: " . htmlspecialchars($e->getMessage()));
 }
 
-// Перенаправляем обратно на главную
 header("Location: index.php");
 exit;
 ?>

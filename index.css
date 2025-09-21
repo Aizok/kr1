@@ -1,5 +1,5 @@
 .card-recipe {
-    height: 65vh; /* ← Увеличили до 65% высоты экрана */
+    height: 65vh; 
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -22,7 +22,7 @@
 }
 
 .card-title-block {
-    flex: 0 0 10%; /* Заголовок занимает 10% высоты */
+    flex: 0 0 10%; 
     margin-bottom: 1rem;
 }
 
@@ -33,7 +33,7 @@
 }
 
 .ingredients-list {
-    flex: 1 1 55%; /* Ингредиенты — 55% высоты (самый большой блок!) */
+    flex: 1 1 55%; 
     overflow-y: auto;
     margin-bottom: 1rem;
     padding: 1rem;

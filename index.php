@@ -39,13 +39,11 @@
                     <div class="col">
                         <div class="card shadow-sm card-recipe <?= $cardClass ?>">
                             <div class="card-body">
-                                <!-- Заголовок -->
                                 <div class="card-title-block d-flex justify-content-between align-items-start">
                                     <h5 class="card-title mb-0"><?= htmlspecialchars($row['title']) ?></h5>
                                     <span class="badge <?= $diffClass ?>"><?= htmlspecialchars($row['difficulty']) ?></span>
                                 </div>
 
-                                <!-- Ингредиенты -->
                                 <div class="ingredients-list">
                                     <strong>📋 Ингредиенты:</strong>
                                     <ul class="mb-0 small">
@@ -61,10 +59,9 @@
                                     </ul>
                                 </div>
 
-                                <!-- Описание -->
                                 <?php if (!empty($row['description'])):
                                     $desc = htmlspecialchars($row['description']);
-                                    $maxLen = 400; // Можно показать больше, так как карточка большая
+                                    $maxLen = 400; 
                                     $shortDesc = mb_strlen($desc) > $maxLen ? mb_substr($desc, 0, $maxLen) . '...' : $desc;
                                     ?>
                                     <div class="short-desc">
@@ -77,7 +74,6 @@
                                     </div>
                                 <?php endif; ?>
 
-                                <!-- Кнопки -->
                                 <div class="card-footer-actions">
                                     <span class="badge <?= $row['status'] === 'приготовлен' ? 'bg-success' : 'bg-warning text-dark' ?>">
                                         <?= $row['status'] === 'приготовлен' ? '✅ Приготовлен' : '⏳ Не приготовлен' ?>
